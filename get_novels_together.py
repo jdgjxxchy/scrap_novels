@@ -12,9 +12,11 @@
 import gevent
 from gevent import monkey
 monkey.patch_all()
-import requests, time, random, re, os
+import requests, time, random, re, os, sys
 from bs4 import BeautifulSoup
-from day12_爬取小说实例.save_ip import IP_list
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(BASE_DIR)
+from save_ip import IP_list
 
 dir = os.path.dirname(os.path.abspath(__file__))
 personal = ""
@@ -71,7 +73,6 @@ def fetch_async(x, url):
             if tag.name == 'p':
                 f.writelines(''.join(['    ', tag.string.strip(), '\n\n']))
     print('%d.%s 下载完成' % (x, title))
-
 
 def get_together(name, author, x):
     """
@@ -160,9 +161,8 @@ if __name__ == '__main__':
     #     "http://quanben5.com/n/douluodalu/xiaoshuo.html",
     #     "http://quanben5.com/n/renxingderuodian/xiaoshuo.html"
     # ]
-    # if not os.path.exists('temp'):
-    #     os.mkdir('temp')
-    # getNovelUrls()
+    if not os.path.exists('temp'):
+        os.mkdir('temp')
     while True:
         url = get_url()
         time_start = time.time()
